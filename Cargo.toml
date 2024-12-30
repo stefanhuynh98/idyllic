@@ -1,0 +1,12 @@
+[package]
+name = "idyllic"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.95"
+crossterm = "0.28.1"
+polars = { version = "0.45.1", features = ["lazy"] }
+ratatui = "0.29.0"
+regex = "1.11.1"
+thiserror = "2.0.9"
