@@ -6,7 +6,9 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0.95"
 crossterm = "0.28.1"
-polars = { version = "0.45.1", features = ["lazy"] }
 ratatui = "0.29.0"
-regex = "1.11.1"
+serde = { version = "1.0.217", features = ["derive"] }
 thiserror = "2.0.9"
+regex = "1.11.1"
+polars = { version = "0.45.1", features = ["lazy"] }
+serde_json = "1.0.134"

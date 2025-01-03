@@ -681,6 +681,8 @@ dependencies = [
  "polars",
  "ratatui",
  "regex",
+ "serde",
+ "serde_json",
  "thiserror",
 ]
 

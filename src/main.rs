@@ -1,29 +1,28 @@
-use std::fs::File;
-use std::io::Read;
+use std::env;
+use anyhow::{Context, Result};
+use idyllic::parse::dataframe_from_log;
+use idyllic::config::Config;
 
-use anyhow::Result;
-use idyllic::app::App;
-use idyllic::parse::parse_lines;
+fn get_config_path() -> Result<String> {
+    let config_dir = match env::var("XDG_CONFIG_HOME") {
+        Ok(dir) => dir,
+        Err(_) => {
+            let home_dir = env::var("XDG_HOME")
+                .or(env::var("HOME"))
+                .context("Unable to find config directory")?;
 
-fn get_log() -> Result<String> {
-    let mut log_file = File::open("data/sample-nginx.log")?;
-    let mut buf = String::new();
+            format!("{}/.config", home_dir)
+        }
+    };
+    let path = format!("{}/idyllic/idyllic.json", config_dir);
 
-    log_file.read_to_string(&mut buf)?;
-
-    Ok(buf)
+    Ok(path)
 }
 
 fn main() -> Result<()> {
-    let log = get_log()?;
-    // let mut terminal = ratatui::init();
-    // let mut app = App::new(&log);
-
-    // app.run(&mut terminal)?;
-
-    let parsed = parse_lines(&log)?;
-
-    dbg!(parsed);
+    let config_path = get_config_path()?;
+    let Config { logs } = Config::load(&config_path)?;
+    let _df = dataframe_from_log(&logs["nginx"])?;
 
     Ok(())
 }
